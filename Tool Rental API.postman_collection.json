@@ -1,0 +1,399 @@
+{
+	"info": {
+		"_postman_id": "fd695d2d-6a55-46ad-81b8-0bd604b290aa",
+		"name": "Tool Rental API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37431711"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{Base URL}}/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Tools",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifying the status code\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Verifying the status message\",function(){\r",
+							"    pm.expect(pm.response.status).to.eql(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/tools?category=plumbing&results=6",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "plumbing"
+						},
+						{
+							"key": "results",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Tool",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.status);\r",
+							"pm.test(\"Verifying the status\",function()\r",
+							"{\r",
+							"    const response=pm.response.json();\r",
+							"    pm.expect(pm.response).to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response body structure is valid\", function () {\r",
+							"    var responseJSON = pm.response.json();\r",
+							"    pm.expect(responseJSON).to.be.an('object');\r",
+							"    pm.expect(responseJSON).to.have.property('id');\r",
+							"    pm.expect(responseJSON).to.have.property('category');\r",
+							"    pm.expect(responseJSON).to.have.property('name');\r",
+							"    pm.expect(responseJSON).to.have.property('manufacturer');\r",
+							"    pm.expect(responseJSON).to.have.property('price');\r",
+							"    pm.expect(responseJSON).to.have.property('current-stock');\r",
+							"    pm.expect(responseJSON).to.have.property('inStock');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://simple-tool-rental-api.glitch.me/tools/:toolId",
+					"protocol": "https",
+					"host": [
+						"simple-tool-rental-api",
+						"glitch",
+						"me"
+					],
+					"path": [
+						"tools",
+						":toolId"
+					],
+					"variable": [
+						{
+							"key": "toolId",
+							"value": "1225"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New API Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking status code\",function(){\r",
+							"    console.log(pm.response.status);\r",
+							"    pm.expect(pm.response.status).to.eql(\"Created\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Access Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientName\": \"ManognaLeo\",\r\n   \"clientEmail\": \"412343242342341@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{Base URL}}/api-clients"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateNewOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking status code\",function(){\r",
+							"    console.log(pm.response.status);\r",
+							"    pm.expect(pm.response.status).to.eql(\"Created\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Access Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"toolId\": 4643,\r\n \"customerName\": \"{{$randomFullName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{Base URL}}/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Results",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/tools?results=6",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "results",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetParticularTools",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/tools?results=m&category=ladders",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "lawn-care",
+							"disabled": true
+						},
+						{
+							"key": "results",
+							"value": "m"
+						},
+						{
+							"key": "category",
+							"value": "ladders"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSingleOrder",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Access Token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base URL}}/orders/:orderID",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"orders",
+						":orderID"
+					],
+					"variable": [
+						{
+							"key": "orderID",
+							"value": "BZX56OY-GzO2PsFNXqx0U"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Order",
+			"request": {
+				"method": "PATCH",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifying status code and msg\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.status).to.eql(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Access Token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{Base URL}}/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Base URL",
+			"value": "https://simple-tool-rental-api.glitch.me"
+		},
+		{
+			"key": "Access Token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
